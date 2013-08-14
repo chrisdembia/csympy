@@ -30,7 +30,13 @@ typedef struct
     // true if x < y, false otherwise
     bool operator() (const Teuchos::RCP<Basic> &x, const Teuchos::RCP<Basic> &y) const {
         if (x->__eq__(*y)) return false;
-        // Just compare pointer memory values (platform dependent):
+        // When x != y per the previous condition, then we compare hashes. If
+        // hashes are not equal, then we simply return hash(x) < hash(y), as
+        // this gives an ordering. However, if hash(x) == hash(y), but x != y,
+        // then we need to implement some more sophisticated way to determine x
+        // < y. Until we do so, we simply check that hashes are never equal,
+        // that way we never produce incorrect results:
+        CSYMPY_ASSERT(x->__hash__() != y->__hash__())
         return x->__hash__() < y->__hash__();
     }
 } RCPBasicKeyLess;
