@@ -31,7 +31,7 @@ typedef struct
     bool operator() (const Teuchos::RCP<Basic> &x, const Teuchos::RCP<Basic> &y) const {
         if (x->__eq__(*y)) return false;
         // Just compare pointer memory values (platform dependent):
-        return x.getRawPtr() < y.getRawPtr();
+        return x->__hash__() < y->__hash__();
     }
 } RCPBasicKeyLess;
 

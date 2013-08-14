@@ -34,7 +34,7 @@ bool Sin::is_canonical(const Teuchos::RCP<Basic> &arg)
 
 std::size_t Sin::__hash__() const
 {
-    std::size_t seed = 0;
+    std::size_t seed = 1;
     hash_combine<Basic>(seed, *arg_);
     return seed;
 }
